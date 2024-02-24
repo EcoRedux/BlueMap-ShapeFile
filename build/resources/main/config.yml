@@ -1,0 +1,139 @@
+countryMarkers:
+  # Whether country name markers should be enabled
+  enable: true
+
+  # The name of the layer that you want to add these markers to
+  # It can be a layer defined above, or a layer that already exists
+  # EXACT NAME, or the markers will not load!
+  layer: Country Borders
+
+  # Name of the Dynmap marker used for the country name markers
+  # (configure markers in Dynmap; you can make custom markers)
+  markerIconName: king
+
+  # Name of the world that the markers are placed in
+  world: world
+
+  # Scaling depends on the size of your Earth map.
+  # If 1:1000 scale of Earth, use 1000
+  # If you're not using an Earth map or want more info:
+  # This value divides 120000 and then the X/Z coordinate for each point in the shapefile is multiplied by that result
+  # So, making this value bigger will make your shapefile smaller
+  scaling: 4000
+
+  # If your Earth map is off center, you can shift the x/z of the center in blocks
+  xOffset: 0
+  zOffset: 0
+
+  # Y value for the markers
+  # This shouldn't change anything unless you use the 3D Dynmap(?)
+  y: 64
+
+  # Defines how far you have to zoom in to see the layer
+  # 0 is zoomed farthest out, higher number = closer zoom
+  # If set to 1, the layer doesn't appear if you're zoomed all the way out
+  # Set to -1 to default to default setting defined above
+  # If you set min/max zoom for individual markers, it overrides this setting
+  minimumZoom: 2
+
+  # Defines how far you have to zoom out to see the layer
+  # 0 is zoomed farthest out, higher number = closer zoom
+  # If set to 0, the layer only appears if you're zoomed all the way out
+  # Set to -1 to default to default setting defined above
+  maximumZoom: -1
+
+shapefiles:
+  # You can add as many shapefiles as you would like
+  # Be careful adding very high quality shapefiles as this increases the time to load the Dynmap
+  # You can use online tools to reduce the quality of shapefiles (mapshaper.org is one)
+  countryBorders:
+    # Name of shapefile
+    # (without file extension, so putting "countryborders" will mean a file named "countryborders.shp")
+    # Requires .shp, .shx, .dbf, and .prj files of the same name.
+    # Place all 4 items in the plugin's folder (/plugins/dynmap-countries/)
+    # I used https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/
+    # I haven't tested every shapefile out there, so there are some which may not work
+    shapefileName: countryborders
+
+
+    # The name of the layer that you want to add these markers to
+    # It can be a layer defined above, or a layer that already exists
+    # EXACT NAME, or your shapefile will not load!
+    layer: Country Borders
+
+    # Text shown when you click on the border itself
+    # (Remove this config option or replace it with "None" to disable it)
+    description: Country Border
+
+    # Scaling depends on the size of your Earth map.
+    # If 1:1000 scale of Earth, use 1000
+    # If you're not using an Earth map or want more info:
+    # This value divides 120000 and then the X/Z coordinate for each point in the shapefile is multiplied by that result
+    # So, making this value bigger will make your shapefile smaller
+    scaling: 4000
+
+    # If your Earth map is off center, you can shift the x/z of the center in blocks
+    xOffset: 0
+    zOffset: 0
+
+    # Y value for the border lines
+    # This shouldn't change anything unless you use the 3D Dynmap(?)
+    y: 64
+
+    # Defines how far you have to zoom in to see the layer
+    # 0 is zoomed farthest out, higher number = closer zoom
+    # If set to 1, the layer doesn't appear when zoom < 1, so it doesn't appear if you're zoomed all the way out
+    # Set to -1 to default to default setting defined above
+    # If you set min/max zoom for individual markers, it overrides this setting
+    minimumZoom: -1
+
+    # Defines how far you have to zoom out to see the layer
+    # 0 is zoomed farthest out, higher number = closer zoom
+    # If set to 3, the layer doesn't appear after you zoom in more than 3 times
+    # Set to -1 to default to default setting defined above
+    maximumZoom: -1
+
+    # World name to define this border for
+    world: world
+
+    # Style of the border on dynmap
+    style:
+      # Hex color of the border line
+      # Use a color wheel, example https://htmlcolorcodes.com/color-picker/
+      color: 0xCC66CC
+
+      # Set thickness of the border line. 1+
+      thickness: 2
+
+      # Set opacity of the border line. 0-1; lower value = more transparent
+      opacity: .5
+
+      hideByDefault: false
+
+  stateBorders:
+    # Example source for US state borders:
+    # https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html
+    # I did not supply the above files so this section will log a warning
+    shapefileName: cb_2018_us_region_5m
+
+    layer: Country Borders
+
+    description: State Border
+
+    scaling: 4000
+
+    xOffset: 0
+    zOffset: 0
+
+    y: 64
+
+    minimumZoom: 2
+    maximumZoom: -1
+
+    world: world
+    # Style is customizable per each shapefile, so you can make the states a different color from countries!
+    style:
+      color: 0xEE66DD
+      thickness: 1
+      opacity: .6
+    hideByDefault: false

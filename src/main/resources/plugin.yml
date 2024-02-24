@@ -1,6 +1,5 @@
-main: ${mainClass}
-name: ${name}
-version: ${version}
-authors: [StupidDrew9]
-depend: [dynmap]
-api-version: 1.16
+name: BlueMap-ShapeFile
+version: '${version}'
+main: me.jules.bluemapshapefile.BlueMap_ShapeFile
+api-version: '1.20'
+author: ItsJules_
