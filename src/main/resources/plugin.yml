@@ -3,3 +3,4 @@ version: '${version}'
 main: me.jules.bluemapshapefile.BlueMap_ShapeFile
 api-version: '1.20'
 author: ItsJules_
+depend: [BlueMap]

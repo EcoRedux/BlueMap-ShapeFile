@@ -237,17 +237,21 @@ public class BlueMap_ShapeFile extends JavaPlugin {
                             }
 
                             int polygonIndex = 0;
-                            Line.Builder lineBuilder = Line.builder();
                             for (String polygon : polygons) {
-                                String id = section + "_" + iteration + "_" + index + "_" + polygonIndex;
+                                Line.Builder lineBuilder = Line.builder();
+
+                                String idBase = section + "_" + iteration + "_" + index + "_" + polygonIndex;
+                                int segmentIndex = 0;
+                                Double prevVal = null;
+
                                 polygon = polygon.replace("MULTIPOLYGON ", "").replace("(", "").replace(")", "");
                                 String[] locations = polygon.split(", ");
 
                                 double[] x = new double[locations.length];
                                 double[] y = new double[locations.length];
                                 double[] z = new double[locations.length];
-
                                 int i = 0;
+
                                 for (String location : locations) {
                                     String[] coords = location.split(" ");
                                     double lat = 0;
@@ -259,32 +263,57 @@ public class BlueMap_ShapeFile extends JavaPlugin {
                                         e.printStackTrace();
                                         continue;
                                     }
+
+                                    if (prevVal != null && Math.abs(lat - prevVal) > 200) {
+
+                                        String currentId = idBase + "_seg_" + segmentIndex;
+                                        if (markerSet.get(currentId) != null) markerSet.remove(currentId);
+
+                                        Line line = lineBuilder.build();
+                                        if (line.getPoints().length > 1) {
+                                            LineMarker lineMarker = LineMarker.builder()
+                                                    .line(line)
+                                                    .label(desc)
+                                                    .depthTestEnabled(false)
+                                                    .build();
+                                            markerSet.put(currentId, lineMarker);
+                                        }
+
+                                        segmentIndex++;
+                                        lineBuilder = Line.builder();
+                                    }
+                                    prevVal = lat;
+
                                     if (lat > 180 || lon + 90 > 180) {
                                         errors = true;
                                     }
                                     x[i] = (lat * scaling) + xOffset;
-
                                     y[i] = yMarker;
-
                                     z[i] = (lon * scaling) * -1 + zOffset;
 
                                     lineBuilder.addPoint(Vector3d.from(x[i], y[i], z[i]));
                                     i++;
                                 }
-                                if(markerSet.get(id) != null){
-                                    markerSet.remove(id);
+
+                                String finalId = idBase + "_seg_" + segmentIndex;
+                                if(markerSet.get(finalId) != null){
+                                    markerSet.remove(finalId);
                                 }
                                 Line line = lineBuilder.build();
-                                LineMarker lineMarker = LineMarker.builder()
-                                        .line(line)
-                                        .label(desc)
-                                        .depthTestEnabled(false)
-                                        .build();
-                                if (lineMarker == null) {
-                                    this.getLogger().info("Error adding line marker! " + id);
-                                    continue;
+
+                                if (line.getPoints().length > 1) {
+                                    LineMarker lineMarker = LineMarker.builder()
+                                            .line(line)
+                                            .label(desc)
+                                            .depthTestEnabled(false)
+                                            .build();
+
+                                    if (lineMarker == null) {
+                                        this.getLogger().info("Error adding line marker! " + finalId);
+                                        continue;
+                                    }
+                                    markerSet.put(finalId, lineMarker);
                                 }
-                                markerSet.put(id, lineMarker);
                                 polygonIndex++;
                             }
                         }
