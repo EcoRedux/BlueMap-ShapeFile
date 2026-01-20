@@ -1,4 +1,4 @@
-## bluemap-countries
+## BlueMap-ShapeFile
 
 Creates country border outlines on BlueMap for a server using a Shapefile to draw polygons as markers!
 
